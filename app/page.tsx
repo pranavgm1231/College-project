@@ -1,65 +1,68 @@
-import Image from "next/image";
+import Link from "next/link";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Index() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    return redirect("/dashboard");
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="flex-1 w-full flex flex-col gap-20 items-center">
+      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+        <div className="w-full max-w-6xl flex justify-between items-center p-3 text-sm">
+          <div className="font-bold text-xl flex items-center gap-2">
+            SkillBarter
+          </div>
+          <div className="flex gap-4">
+            <Link href="/login" className="py-2 px-3 rounded-md hover:bg-muted transition-colors">Login</Link>
+            <Link href="/signup" className="py-2 px-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">Sign Up</Link>
+          </div>
+        </div>
+      </nav>
+
+      <div className="flex-1 flex flex-col gap-10 items-center px-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 ease-out fill-mode-forwards max-w-4xl pt-10">
+        <header className="flex flex-col gap-6 items-center text-center">
+          <h1 className="text-4xl lg:text-7xl font-bold tracking-tight">
+            Exchange Skills. <br /><span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400">No Money Needed.</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Join a community of learners and teachers. Teach what you know, learn what you want.
+            Earn credits by helping others and spend them to master new skills.
           </p>
+          <div className="flex flex-col sm:flex-row gap-4 mt-8">
+            <Link href="/signup" className="bg-primary text-primary-foreground py-3 px-8 rounded-md font-medium text-lg hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+              Start Bartering
+            </Link>
+            <Link href="/about" className="py-3 px-8 rounded-md border bg-background hover:bg-muted transition-colors font-medium text-lg">
+              How it Works
+            </Link>
+          </div>
+        </header>
+
+        <div className="w-full border rounded-xl p-8 bg-card shadow-sm mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-4">
+              <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl">1</div>
+              <h3 className="font-bold mb-2">Offer a Skill</h3>
+              <p className="text-muted-foreground">List what you can teach. From Coding to Cooking.</p>
+            </div>
+            <div className="text-center p-4">
+              <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl">2</div>
+              <h3 className="font-bold mb-2">Earn Credits</h3>
+              <p className="text-muted-foreground">Help others learn and earn credits in your digital wallet.</p>
+            </div>
+            <div className="text-center p-4">
+              <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl">3</div>
+              <h3 className="font-bold mb-2">Learn Anything</h3>
+              <p className="text-muted-foreground">Spend credits to request sessions from experts.</p>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
     </div>
   );
 }

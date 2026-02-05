@@ -1,0 +1,53 @@
+Walkthrough - Skill-Barter Web App
+Implementations
+I have built the full-stack Next.js application with Supabase.
+
+Features
+Authentication: Users can Sign Up and Login. Profiles are automatically created.
+Dashboard: Shows available credits and navigation.
+Profile: Users can update bio and manage "Offered" and "Wanted" skills.
+Explore: Smart matching shows user skills relevant to your "Wanted" list.
+Exchanges:
+Users can Request a session from the Explore page.
+Requests show up in the Messages tab.
+Responder can Accept or Reject.
+Messaging: Real-time chat interface for coordinating exchanges.
+Trust & Credits:
+Marking an exchange as Completed transfers 1 Credit from Requester to Responder.
+Trust Score (placeholder) is displayed.
+Files Created
+app/ - Next.js App Router structure.
+components/ - Reusable UI components (Tailwind styled).
+utils/supabase - Supabase clients.
+db/ - SQL schemas.
+Verification
+
+To run the app:
+
+Setup Environment:
+Create a Supabase project.
+Copy .env.example to .env.local and fill in NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.
+
+Setup Database:
+Run the SQL from db/schema.sql in the Supabase SQL Editor.
+Run the SQL from db/functions.sql in the Supabase SQL Editor (for credit system).
+
+Run Locally:
+npm run dev
+
+Test Flow:
+
+Sign up as User A (gets 3 credits).
+Sign up as User B (gets 3 credits).
+User A posts "Math" as an Offered Skill.
+User B posts "Math" as a Wanted Skill.
+User B goes to Explore -> Sees User A.
+User B requests session.
+User A accepts.
+Chat helps them coordinate.
+User A marks as Completed.
+User A now has 4 credits, User B has 2.
+Deployment
+Connect this repository to Vercel.
+Add the Environment Variables in Vercel Project Settings.
+Deploy!
